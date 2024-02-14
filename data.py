@@ -10,26 +10,6 @@ from sklearn.model_selection import learning_curve
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.svm import SVC
 
-cookie_manager = get_manager()
-start_time = time.time()
-timeout = 0.01  # Preset timeout time
-while True:
-    if 'cookies' not in st.session_state:
-        st.session_state['cookies'] = cookie_manager.get_all()
-    elif time.time() - start_time > timeout:
-        st.warning("Operation timeout. Please refresh the page or check your network connection.")
-        break  # If timed out, exit the loop directly
-    else:
-        if 'lzs_userid' not in st.session_state.cookies:
-            if 'lzs_userid' not in st.session_state:
-                st.session_state["lzs_userid"] = str(uuid.uuid4())
-            cookie_manager.set('lzs_userid', st.session_state["lzs_userid"], key="0", expires_at=datetime.datetime(year=2023, month=8, day=2))
-        if "lzs_pwd" not in st.session_state.cookies:
-            if "lzs_pwd" not in st.session_state:
-                random_pwd = ''.join(random.choices(string.ascii_letters + string.digits,k=8))
-                st.session_state['lzs_pwd'] = bcrypt.hashpw(random_pwd.encode(),bcrypt.gensalt(rounds=10)).decode('utf-8')
-            cookie_manager.set('lzs_pwd', st.session_state.get('lzs_pwd', ''), key="1", expires_at=datetime.datetime(year=2023, month=8, day=2))
-        break
 
 
 
